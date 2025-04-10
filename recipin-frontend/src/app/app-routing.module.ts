@@ -6,17 +6,17 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () =>
-      import('./Pages/auth/auth.module').then((m) => m.AuthModule),
+      import('./pages/auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'recipes',
     loadChildren: () =>
-      import('./Pages/recipes/recipes.module').then((m) => m.RecipesModule),
+      import('./pages/recipes/recipes.module').then((m) => m.RecipesModule),
   },
   {
     path: 'planner',
     loadChildren: () =>
-      import('./Pages/meal-planner/meal-planner.module').then(
+      import('./pages/meal-planner/meal-planner.module').then(
         (m) => m.MealPlannerModule
       ),
   },
