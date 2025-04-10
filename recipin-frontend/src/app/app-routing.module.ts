@@ -17,7 +17,7 @@ const routes: Routes = [
 
   // Meal Plan Routes
   {
-    path: 'planner',
+    path: 'my-plans',
     component: MealPlanListComponent,
   },
   { path: '**', redirectTo: 'recipes' },
