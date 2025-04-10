@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthModule } from '../pages/auth/auth.module';
 import { CoreModule } from '../core/core.module';
 import { LayoutModule } from '../layout/layout.module';
 
 @NgModule({
   declarations: [],
-  imports: [AuthModule, CoreModule, CommonModule, LayoutModule],
-  exports: [AuthModule, CoreModule, LayoutModule],
+  imports: [CoreModule, CommonModule, LayoutModule],
+  exports: [CoreModule, LayoutModule],
 })
 export class SharedModule {}

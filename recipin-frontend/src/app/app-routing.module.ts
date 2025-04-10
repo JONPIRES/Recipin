@@ -1,24 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LoginComponent } from './pages/auth/login/login.component';
+import { RegisterComponent } from './pages/auth/register/register.component';
+import { MealPlanListComponent } from './pages/meal-planner/meal-plan-list/meal-plan-list.component';
+import { RecipeListComponent } from './pages/recipes/recipe-list/recipe-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'recipes', pathMatch: 'full' },
-  {
-    path: 'auth',
-    loadChildren: () =>
-      import('./pages/auth/auth.module').then((m) => m.AuthModule),
-  },
-  {
-    path: 'recipes',
-    loadChildren: () =>
-      import('./pages/recipes/recipes.module').then((m) => m.RecipesModule),
-  },
+
+  // Recipe Routes
+  { path: 'recipes', component: RecipeListComponent },
+
+  // Auth Routes
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+
+  // Meal Plan Routes
   {
     path: 'planner',
-    loadChildren: () =>
-      import('./pages/meal-planner/meal-planner.module').then(
-        (m) => m.MealPlannerModule
-      ),
+    component: MealPlanListComponent,
   },
   { path: '**', redirectTo: 'recipes' },
 ];
