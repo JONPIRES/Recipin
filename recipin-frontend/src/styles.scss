@@ -1,1 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Arial", sans-serif; /* Or any default font family */
+  font-size: 1rem; /* Base font size */
+  line-height: 1.5; /* Line height for better readability */
+  color: #333; /* Default text color */
+  background-color: #f4f4f4; /* Default background */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.title,
+.sub-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem; /* Consistent spacing for headings */
+}
+
+p {
+  margin-bottom: 1rem; /* Spacing between paragraphs */
+}
+
+a {
+  text-decoration: none;
+  //   color: #007bff; /* Default link color */
+}
+
+a:hover {
+  text-decoration: underline; /* Underline on hover */
+  //   color: #0056b3; /* Darken color on hover */
+}
