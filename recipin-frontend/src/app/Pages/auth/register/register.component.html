@@ -1,3 +1,19 @@
 <div class="min-h-screen">
-  <p>register works!</p>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
+    <input formControlName="firstName" placeholder="First Name" class="input" />
+    <input formControlName="lastName" placeholder="Last Name" class="input" />
+    <input
+      formControlName="email"
+      placeholder="Email"
+      type="email"
+      class="input"
+    />
+    <input
+      formControlName="password"
+      placeholder="Password"
+      type="password"
+      class="input"
+    />
+    <button type="submit" class="btn btn-primary">Register</button>
+  </form>
 </div>

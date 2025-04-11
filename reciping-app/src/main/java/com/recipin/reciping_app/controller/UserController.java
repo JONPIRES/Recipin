@@ -1,9 +1,12 @@
 package com.recipin.reciping_app.controller;
 
-import com.recipin.reciping_app.model.Recipe;
+import com.recipin.reciping_app.dto.UserDto;
 import com.recipin.reciping_app.model.User;
-import com.recipin.reciping_app.repository.UserRepository;
+import com.recipin.reciping_app.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,21 +14,34 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
+
+    private final UserService userService;
+
     @Autowired
-    private UserRepository userRepo;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return userRepo.findAll();
+    public ResponseEntity<List<User>> getAllUsers() {
+        return ResponseEntity.ok().body(userService.getAllUsers());
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userRepo.save(user);
+    public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
+        if (userService.emailExists(userDto.getEmail())) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body("Email is already in use.");
+        }
+
+        User newUser = userService.createUser(userDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userRepo.deleteById(id);
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }

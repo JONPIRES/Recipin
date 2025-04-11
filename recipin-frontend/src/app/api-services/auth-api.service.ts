@@ -24,6 +24,10 @@ export class AuthApiService {
     return this.http.post<any>('/api/auth/login', { user });
   }
 
+  register(user: User): Observable<any> {
+    return this.http.post('/api/user', user);
+  }
+
   // decodeToken(token: string): any {
   //   try {
   //     return jwt_decode(token);

@@ -1,33 +1,20 @@
-package com.recipin.reciping_app.model;
+package com.recipin.reciping_app.dto;
 
-import jakarta.persistence.*;
-
-@Entity
-public class User {
-    @Id
-    @GeneratedValue
-    private Long id;
-
+public class UserDto {
     private String firstName;
     private String lastName;
     private String email;
     private String password;
 
-    public User() {}
+    public UserDto() {
+        // No-arg constructor
+    }
 
-    public User(Long id, String firstName, String lastName, String email) {
-        this.id = id;
+    public UserDto(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.password = password;
     }
 
     public String getFirstName() {
