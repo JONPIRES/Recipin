@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AuthApiService } from 'src/app/api-services/auth-api.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 
@@ -10,14 +15,15 @@ import { SharedModule } from 'src/app/shared/shared.module';
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent implements OnInit {
-  constructor(private fb: FormBuilder, private authApi: AuthApiService) {}
-
-  registerForm: FormGroup = this.fb.group({
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-  });
+  constructor(private fb: FormBuilder, private authApi: AuthApiService) {
+    this.registerForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  }
+  registerForm: FormGroup;
 
   onSubmit() {
     if (this.registerForm.valid) {
