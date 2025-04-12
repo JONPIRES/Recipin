@@ -15,7 +15,7 @@ public class MealPlanController {
     @Autowired
     private MealPlanRepository mealPlanRepo;
 
-    @GetMapping
+    @GetMapping("/{userId}")
     public List<MealPlan> getUserMealPlans(@PathVariable Long userId) {
         return mealPlanRepo.findByUserId(userId);
     }

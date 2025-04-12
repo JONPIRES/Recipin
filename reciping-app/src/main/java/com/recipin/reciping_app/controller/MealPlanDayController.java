@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/meal-plan")
+@RequestMapping("/api/meal-plan/days")
 public class MealPlanDayController {
     @Autowired
     private MealPlanDayRepository mealPlanDayRepo;
 
-    @GetMapping
+    @GetMapping("/{planId}")
     public List<MealPlanDay> getDaysForMealPlan(@PathVariable Long planId) {
         return mealPlanDayRepo.findByMealPlanId(planId);
     }
@@ -24,6 +24,8 @@ public class MealPlanDayController {
     public MealPlanDay addMealPlanDay(@RequestBody MealPlanDay day) {
         return mealPlanDayRepo.save(day);
     }
+
+
     @DeleteMapping("/{id}")
     public void deleteMealPlan(@PathVariable Long id) {
         mealPlanDayRepo.deleteById(id);

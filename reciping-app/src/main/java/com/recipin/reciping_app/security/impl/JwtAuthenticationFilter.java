@@ -39,10 +39,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private boolean validateToken(String token) {
         try {
             // Validate the token by parsing it with the signing key
-            Jwts.parserBuilder()
-                    .setSigningKey(getSigningKey()) // Use the Key object
+            Jwts.parser()
+                    .verifyWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                     .build()
-                    .parseClaimsJws(token); // Parse the token to verify it
+                    .parseSignedClaims(token);
             return true;
         } catch (Exception e) {
             return false; // If validation fails, return false
@@ -50,11 +50,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private Authentication getAuthentication(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
+        Claims claims = Jwts.parser()
+                .verifyWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
 
         String username = claims.getSubject(); // Extract the username (or other information)
 
