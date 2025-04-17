@@ -66,7 +66,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 protected void doFilterInternal(@Nullable HttpServletRequest request,
                                 @Nullable HttpServletResponse response,
                                 @Nullable FilterChain filterChain) throws ServletException, IOException {
+
     if (request != null && filterChain != null) {
+
+        String path = request.getServletPath();
+        if (path.equals("/api/user/login") || path.equals("/api/user/register") || path.startsWith("/api/auth")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         logger.info("Processing request: {}");
 
         String token = getJwtFromRequest(request);
