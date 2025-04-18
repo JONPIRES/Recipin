@@ -2,6 +2,7 @@ package com.recipin.reciping_app.security.impl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.FilterChain;
@@ -14,8 +15,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import javax.crypto.SecretKey;
 import java.io.IOException;
-import java.security.Key;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -23,11 +25,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Value("${jwt.secret}")
     private String secretKey;
     // Convert the secret key into a secure Key object
-    private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(secretKey.getBytes()); // Convert the secret key string into a Key
+    private SecretKey getSigningKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey); // `secretKey` is your base64 string
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
+
     private String getJwtFromRequest(HttpServletRequest request) {
+        logger.info(String.format("authorization header: %s", request.getHeader("Authorization")));
         String bearerToken = request.getHeader("Authorization");
 
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
@@ -38,13 +43,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private boolean validateToken(String token) {
         try {
+            logger.info(String.format("Validating token: %s", token));
             // Validate the token by parsing it with the signing key
             Jwts.parser()
-                    .verifyWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
+                    .verifyWith(getSigningKey())
                     .build()
                     .parseSignedClaims(token);
+            logger.info("Token validation successful.");
             return true;
         } catch (Exception e) {
+            logger.info(String.format("Exception message: %s", e.getMessage()));
             return false; // If validation fails, return false
         }
     }
@@ -79,7 +87,9 @@ protected void doFilterInternal(@Nullable HttpServletRequest request,
 
         String token = getJwtFromRequest(request);
 
+//        TODO: Getting an error here
         if (token != null && validateToken(token)) {
+            logger.info("passed Validate");
             Authentication authentication = getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
