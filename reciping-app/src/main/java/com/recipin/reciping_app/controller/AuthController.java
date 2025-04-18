@@ -4,6 +4,7 @@ import com.recipin.reciping_app.dto.JwtResponse;
 import com.recipin.reciping_app.dto.LoginRequest;
 import com.recipin.reciping_app.dto.UserDto;
 import com.recipin.reciping_app.model.User;
+import com.recipin.reciping_app.service.AuthService;
 import com.recipin.reciping_app.service.JwtService;
 import com.recipin.reciping_app.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,8 @@ import java.util.List;
 public class AuthController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private AuthService authService;
 
     @Autowired
     private JwtService jwtService;
@@ -40,7 +43,7 @@ public class AuthController {
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest userReq) {
 
         try {
-            User user = userService.authenticateUser(userReq);
+            User user = authService.authenticateUser(userReq);
             String jwtToken = jwtService.generateToken(user);
             return ResponseEntity.ok(new JwtResponse(jwtToken, user));
 

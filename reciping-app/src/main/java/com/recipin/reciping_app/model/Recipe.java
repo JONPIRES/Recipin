@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Recipe {
+public class Recipe implements BaseEntity {
     @Id @GeneratedValue
     private Long id;
 
@@ -15,7 +15,7 @@ public class Recipe {
     private int cookTime;
     private int servings;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User createdBy;
 
     @ElementCollection

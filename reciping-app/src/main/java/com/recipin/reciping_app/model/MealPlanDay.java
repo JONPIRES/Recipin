@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-public class MealPlanDay {
+public class MealPlanDay implements BaseEntity {
 
     @Id
     @GeneratedValue

@@ -3,7 +3,7 @@ package com.recipin.reciping_app.model;
 import jakarta.persistence.*;
 
 @Entity
-public class RecipeIngredient {
+public class RecipeIngredient implements BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

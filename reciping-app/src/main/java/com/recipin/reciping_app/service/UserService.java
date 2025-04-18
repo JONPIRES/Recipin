@@ -13,7 +13,6 @@ public interface UserService {
     User getLoggedInUser(UserDto userDto);
     List<User> getAllUsers();
     void deleteUser(Long id);
-    User authenticateUser(LoginRequest user);
 
 
 }

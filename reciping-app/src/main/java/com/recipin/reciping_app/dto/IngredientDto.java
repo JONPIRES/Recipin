@@ -1,23 +1,13 @@
-package com.recipin.reciping_app.model;
+package com.recipin.reciping_app.dto;
 
-import jakarta.persistence.*;
+public class IngredientDto {
 
-@Entity
-public class Ingredient implements BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String unit;
+    private UserSimple createdBy;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private User createdBy;
-
-    public Ingredient() {}
-
-    public Ingredient(Long id, String name, String unit, User createdBy) {
+    public IngredientDto(Long id, String name, String unit, UserSimple createdBy) {
         this.id = id;
         this.name = name;
         this.unit = unit;
@@ -48,11 +38,11 @@ public class Ingredient implements BaseEntity {
         this.unit = unit;
     }
 
-    public User getCreatedBy() {
+    public UserSimple getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(User createdBy) {
+    public void setCreatedBy(UserSimple createdBy) {
         this.createdBy = createdBy;
     }
 }

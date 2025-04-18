@@ -57,18 +57,4 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
         userRepo.deleteById(id);
     }
-
-    @Override
-    public User authenticateUser(LoginRequest user) {
-        Optional<User> userOpt = userRepo.findByEmail(user.getEmail());
-        if (userOpt.isEmpty()) {
-            throw new UsernameNotFoundException("No user found with email: " + user.getEmail());
-        }
-        User dbUser = userOpt.get();
-        if (!passwordEncoder.matches(user.getPassword(), dbUser.getPassword())) {
-            throw new BadCredentialsException("Invalid password");
-        }
-
-        return dbUser;
-    }
 }
