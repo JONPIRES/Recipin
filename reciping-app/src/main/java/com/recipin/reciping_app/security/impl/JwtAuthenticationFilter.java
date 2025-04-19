@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import javax.crypto.SecretKey;
 import java.io.IOException;
+import java.util.Arrays;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -43,23 +44,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private boolean validateToken(String token) {
         try {
-            logger.info(String.format("Validating token: %s", token));
+//            logger.info(String.format("Validating token: %s", token));
             // Validate the token by parsing it with the signing key
             Jwts.parser()
                     .verifyWith(getSigningKey())
                     .build()
                     .parseSignedClaims(token);
-            logger.info("Token validation successful.");
             return true;
         } catch (Exception e) {
-            logger.info(String.format("Exception message: %s", e.getMessage()));
             return false; // If validation fails, return false
         }
     }
 
     private Authentication getAuthentication(String token) {
         Claims claims = Jwts.parser()
-                .verifyWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
+                .verifyWith(getSigningKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
@@ -82,14 +81,10 @@ protected void doFilterInternal(@Nullable HttpServletRequest request,
             filterChain.doFilter(request, response);
             return;
         }
-
-        logger.info("Processing request: {}");
-
         String token = getJwtFromRequest(request);
 
 //        TODO: Getting an error here
         if (token != null && validateToken(token)) {
-            logger.info("passed Validate");
             Authentication authentication = getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
