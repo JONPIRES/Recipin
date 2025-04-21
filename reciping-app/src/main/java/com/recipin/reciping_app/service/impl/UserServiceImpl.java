@@ -2,6 +2,7 @@ package com.recipin.reciping_app.service.impl;
 
 import com.recipin.reciping_app.dto.LoginRequest;
 import com.recipin.reciping_app.dto.UserDto;
+import com.recipin.reciping_app.dto.UserSimple;
 import com.recipin.reciping_app.model.User;
 import com.recipin.reciping_app.repository.UserRepository;
 import com.recipin.reciping_app.service.UserService;
@@ -56,5 +57,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id) {
         userRepo.deleteById(id);
+    }
+
+    @Override
+    public UserSimple getUserSimple(User user) {
+        return new UserSimple(
+                user.getId(),
+                user.getFirstName() + " " + user.getLastName()
+        );
     }
 }

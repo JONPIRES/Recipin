@@ -7,8 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
 
-    Ingredient findByName(String name);  // Example: find an ingredient by its name
+    Optional<Ingredient> findByName(String name);  // Example: find an ingredient by its name
 }

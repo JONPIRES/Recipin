@@ -1,6 +1,7 @@
 package com.recipin.reciping_app.service;
 import com.recipin.reciping_app.dto.LoginRequest;
 import com.recipin.reciping_app.dto.UserDto;
+import com.recipin.reciping_app.dto.UserSimple;
 import com.recipin.reciping_app.model.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,6 +14,6 @@ public interface UserService {
     User getLoggedInUser(UserDto userDto);
     List<User> getAllUsers();
     void deleteUser(Long id);
-
+    UserSimple getUserSimple(User user);
 
 }

@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private boolean validateToken(String token) {
         try {
-//            logger.info(String.format("Validating token: %s", token));
+            logger.info(String.format("Validating token: %s", token));
             // Validate the token by parsing it with the signing key
             Jwts.parser()
                     .verifyWith(getSigningKey())
@@ -83,7 +83,6 @@ protected void doFilterInternal(@Nullable HttpServletRequest request,
         }
         String token = getJwtFromRequest(request);
 
-//        TODO: Getting an error here
         if (token != null && validateToken(token)) {
             Authentication authentication = getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);

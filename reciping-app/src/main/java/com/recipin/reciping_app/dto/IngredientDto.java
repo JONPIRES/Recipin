@@ -1,5 +1,11 @@
 package com.recipin.reciping_app.dto;
 
+import com.recipin.reciping_app.model.Ingredient;
+import com.recipin.reciping_app.model.User;
+import com.recipin.reciping_app.repository.UserRepository;
+import com.recipin.reciping_app.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class IngredientDto {
 
     private Long id;
@@ -7,12 +13,13 @@ public class IngredientDto {
     private String unit;
     private UserSimple createdBy;
 
-    public IngredientDto(Long id, String name, String unit, UserSimple createdBy) {
-        this.id = id;
-        this.name = name;
-        this.unit = unit;
-        this.createdBy = createdBy;
+    public IngredientDto(Ingredient ingredient, UserSimple userSimple) {
+        this.id = ingredient.getId();
+        this.name = ingredient.getName();
+        this.unit = ingredient.getUnit();
+        this.createdBy = userSimple;
     }
+
 
     public Long getId() {
         return id;
