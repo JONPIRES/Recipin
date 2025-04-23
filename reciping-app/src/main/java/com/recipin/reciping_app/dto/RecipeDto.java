@@ -1,13 +1,14 @@
-package com.recipin.reciping_app.model;
+package com.recipin.reciping_app.dto;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.recipin.reciping_app.model.*;
 import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Recipe implements BaseEntity {
+public class RecipeDto {
     @Id @GeneratedValue
     private Long id;
 
@@ -17,34 +18,28 @@ public class Recipe implements BaseEntity {
     private int cookTime;
     private int servings;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private User createdBy;
+    private UserSimple createdBy;
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
+
     private List<Step> steps;
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
     private List<RecipeIngredient> ingredients;
 
-    @ElementCollection
-    @Enumerated(EnumType.STRING)
     private Set<MealType> mealTypes;
 
-    public Recipe() {}
+    public RecipeDto() {}
 
-    public Recipe(Long id, String name, String description, int prepTime, int cookTime, int servings, User createdBy, List<Step> steps, List<RecipeIngredient> ingredients, Set<MealType> mealTypes) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.prepTime = prepTime;
-        this.cookTime = cookTime;
-        this.servings = servings;
-        this.createdBy = createdBy;
-        this.steps = steps;
-        this.ingredients = ingredients;
-        this.mealTypes = mealTypes;
+    public RecipeDto(Recipe recipe, UserSimple user) {
+        this.id = recipe.getId();
+        this.name = recipe.getName();
+        this.description = recipe.getDescription();
+        this.prepTime = recipe.getPrepTime();
+        this.cookTime = recipe.getCookTime();
+        this.servings = recipe.getServings();
+        this.createdBy = user;
+        this.steps = recipe.getSteps();
+        this.ingredients = recipe.getIngredients();
+        this.mealTypes = recipe.getMealTypes();
     }
 
     public Long getId() {
@@ -95,11 +90,11 @@ public class Recipe implements BaseEntity {
         this.servings = servings;
     }
 
-    public User getCreatedBy() {
+    public UserSimple getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(User createdBy) {
+    public void setCreatedBy(UserSimple createdBy) {
         this.createdBy = createdBy;
     }
 

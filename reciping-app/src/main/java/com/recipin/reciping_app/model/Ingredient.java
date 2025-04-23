@@ -1,5 +1,6 @@
 package com.recipin.reciping_app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,17 +10,19 @@ public class Ingredient implements BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column( unique = true)
     private String name;
     private String unit;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     private User createdBy;
 
     public Ingredient() {}
 
     public Ingredient(Long id, String name, String unit, User createdBy) {
         this.id = id;
-        this.name = name;
+        setName(name);
         this.unit = unit;
         this.createdBy = createdBy;
     }
@@ -36,9 +39,7 @@ public class Ingredient implements BaseEntity {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) {this.name = capitalizeFirstLetter(name);}
 
     public String getUnit() {
         return unit;
@@ -54,5 +55,10 @@ public class Ingredient implements BaseEntity {
 
     public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
+    }
+
+    private String capitalizeFirstLetter(String str) {
+        str = str.toLowerCase();
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 }
