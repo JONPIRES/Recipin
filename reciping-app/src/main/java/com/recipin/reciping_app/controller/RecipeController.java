@@ -8,11 +8,13 @@ import com.recipin.reciping_app.repository.RecipeRepository;
 import com.recipin.reciping_app.repository.UserRepository;
 import com.recipin.reciping_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/recipes")
@@ -31,10 +33,16 @@ public class RecipeController {
 
     @PostMapping
     public ResponseEntity<?> createRecipe(@RequestBody Recipe recipe, Principal principal) {
+
         String email = principal.getName(); // This gets the currently logged-in user's email
         User user = userRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Optional<Recipe> dbRecipe = recipeRepo.findByNameAndCreatedBy(recipe.getName(), user);
+        if(dbRecipe.isPresent()) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Recipe Already Exists");
+
         recipe.setCreatedBy(user);
+
         if (recipe.getSteps() != null) {
             recipe.getSteps().forEach(step -> step.setRecipe(recipe));
         }
@@ -42,9 +50,9 @@ public class RecipeController {
             recipe.getIngredients().forEach(ri -> ri.setRecipe(recipe));
         }
         UserSimple userSimple = userService.getUserSimple(user);
-        RecipeDto resipeDto = new RecipeDto(recipe, userSimple);
         Recipe saved = recipeRepo.save(recipe);
-        return ResponseEntity.ok(resipeDto);
+        RecipeDto recipeDto = new RecipeDto(saved, userSimple);
+        return ResponseEntity.ok(recipeDto);
     }
 
     @DeleteMapping("/{id}")
