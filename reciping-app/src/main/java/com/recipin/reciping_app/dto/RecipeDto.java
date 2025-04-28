@@ -7,9 +7,7 @@ import jakarta.persistence.*;
 import java.util.List;
 import java.util.Set;
 
-@Entity
 public class RecipeDto {
-    @Id @GeneratedValue
     private Long id;
 
     private String name;
