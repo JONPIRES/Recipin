@@ -11,13 +11,14 @@ export interface Step {
 }
 
 export interface Recipe {
-  id: number;
-  name: string;
-  description: string;
-  prepTime: string;
-  servings: number;
-  user: User;
-  cookTime: string;
-  ingredients: Ingredient[];
-  steps: Step[];
+  id?: number;
+  name?: string;
+  img?: string;
+  description?: string;
+  prepTime?: string;
+  servings?: number;
+  user?: User;
+  cookTime?: string;
+  ingredients?: Ingredient[];
+  steps?: Step[];
 }

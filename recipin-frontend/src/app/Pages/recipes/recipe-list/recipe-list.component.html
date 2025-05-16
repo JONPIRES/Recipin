@@ -1,1 +1,45 @@
-<div>Recipes here!</div>
+<div class="h-full">
+  <app-header
+    title="Let's Cook!"
+    subTitle="Create and manage your amazing recipes!"
+  ></app-header>
+  <div class="flex justify-between flex-wrap gap-4">
+    @for(card of sampleData; track card.id){
+    <div class="bg-gray-200 rounded p-6">
+      <p class="mt-2 text-lg font-medium text-gray-950 max-lg:text-center">
+        {{ card.name }}
+      </p>
+      <img class="w-40 h-40 object-cover object-top" [src]="card.img" alt="" />
+    </div>
+
+    }
+    <!-- <div
+      class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]"
+    >
+      <div class="px-8 pt-8 pb-3 sm:px-10 sm:pt-10 sm:pb-0">
+        <p
+          class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center"
+        >
+          Chicken Fricasee
+        </p>
+        <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
+          Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem
+          cupidatat commodo.
+        </p>
+      </div>
+      <div
+        class="@container relative min-h-120 w-full grow max-lg:mx-auto max-lg:max-w-sm"
+      >
+        <div
+          class="absolute inset-x-10 top-10 bottom-0 overflow-hidden rounded-t-[12cqw] border-x-[3cqw] border-t-[3cqw] border-gray-700 bg-gray-900 shadow-2xl"
+        >
+          <img
+            class="size-full object-cover object-top"
+            src="https://tailwindcss.com/plus-assets/img/component-images/bento-03-mobile-friendly.png"
+            alt=""
+          />
+        </div>
+      </div>
+    </div> -->
+  </div>
+</div>
