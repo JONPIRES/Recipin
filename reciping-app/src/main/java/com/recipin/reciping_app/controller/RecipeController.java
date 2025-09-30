@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.security.Principal;
 import java.util.List;
@@ -47,7 +48,7 @@ public class RecipeController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createRecipe(@RequestBody Recipe recipe, Principal principal) {
+    public ResponseEntity<?> createRecipe(@Valid @RequestBody Recipe recipe, Principal principal) {
 
         String email = principal.getName(); // This gets the currently logged-in user's email
         User user = userRepo.findByEmail(email)

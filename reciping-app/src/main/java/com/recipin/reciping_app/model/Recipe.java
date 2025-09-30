@@ -2,6 +2,10 @@ package com.recipin.reciping_app.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 import java.util.Set;
@@ -11,10 +15,23 @@ public class Recipe implements BaseEntity {
     @Id @GeneratedValue
     private Long id;
 
+    @NotBlank(message = "Recipe name is required")
+    @Size(min = 2, max = 100, message = "Recipe name must be between 2 and 100 characters")
     private String name;
+    
+    @Size(max = 500, message = "Description must not exceed 500 characters")
     private String description;
+    
+    @NotNull(message = "Preparation time is required")
+    @Positive(message = "Preparation time must be positive")
     private int prepTime;
+    
+    @NotNull(message = "Cooking time is required")
+    @Positive(message = "Cooking time must be positive")
     private int cookTime;
+    
+    @NotNull(message = "Servings is required")
+    @Positive(message = "Servings must be positive")
     private int servings;
 
     @ManyToOne(fetch = FetchType.EAGER)
