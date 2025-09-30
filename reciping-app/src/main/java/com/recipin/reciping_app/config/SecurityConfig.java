@@ -65,10 +65,11 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         
-        // Allow requests from your Angular frontend (development)
+        // Allow requests from your Angular frontend (development and production)
         configuration.setAllowedOrigins(Arrays.asList(
             "http://localhost:4200",  // Angular dev server
-            "http://127.0.0.1:4200"   // Alternative localhost
+            "http://127.0.0.1:4200", // Alternative localhost
+            "https://your-frontend-domain.com"  // Production frontend
         ));
         
         // Allow specific HTTP methods

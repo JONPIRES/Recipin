@@ -5,25 +5,38 @@ import { RegisterComponent } from './pages/auth/register/register.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { MealPlanListComponent } from './pages/meal-planner/meal-plan-list/meal-plan-list.component';
 import { RecipeListComponent } from './pages/recipes/recipe-list/recipe-list.component';
+import { AuthGuard } from './core/guards/auth.guard';
+import { LoginGuard } from './core/guards/login.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 
   { path: 'home', component: HomePageComponent },
 
-  // Recipe Routes
+  // Recipe Routes (public)
   { path: 'recipes', component: RecipeListComponent },
 
-  // Auth Routes
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  // Auth Routes (redirect if already logged in)
+  { 
+    path: 'login', 
+    component: LoginComponent,
+    canActivate: [LoginGuard]
+  },
+  { 
+    path: 'register', 
+    component: RegisterComponent,
+    canActivate: [LoginGuard]
+  },
 
-  // Meal Plan Routes
+  // Protected Routes (require authentication)
   {
     path: 'my-plans',
     component: MealPlanListComponent,
+    canActivate: [AuthGuard]
   },
-  { path: '**', redirectTo: 'recipes' },
+  
+  // Wildcard route (redirect to home)
+  { path: '**', redirectTo: 'home' },
 ];
 
 @NgModule({

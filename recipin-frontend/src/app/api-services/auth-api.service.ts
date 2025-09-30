@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError, throwError } from 'rxjs';
 import { User } from '../models';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class AuthApiService {
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post<any>('/api/auth/login', { email, password }).pipe(
+    return this.http.post<any>(`${environment.apiUrl}/auth/login`, { email, password }).pipe(
       tap(response => {
         if (response.token) {
           localStorage.setItem('authToken', response.token);
@@ -38,7 +39,7 @@ export class AuthApiService {
   }
 
   register(user: User): Observable<any> {
-    return this.http.post('/api/auth/register', user).pipe(
+    return this.http.post(`${environment.apiUrl}/auth/register`, user).pipe(
       catchError(error => {
         console.error('Registration error:', error);
         return throwError(() => error);

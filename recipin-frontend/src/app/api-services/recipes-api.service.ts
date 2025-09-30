@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Recipe } from '../models';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ import { Recipe } from '../models';
 export class RecipesApiService {
   constructor(private http: HttpClient) {}
 
-  private api = '/api/recipes';
+  private api = `${environment.apiUrl}/recipes`;
 
   getAllRecipes() {
     return this.http.get<Recipe[]>(this.api);
