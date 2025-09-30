@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
     private String getJwtFromRequest(HttpServletRequest request) {
-        logger.info(String.format("authorization header: %s", request.getHeader("Authorization")));
+        logger.debug("Checking for authorization header");
         String bearerToken = request.getHeader("Authorization");
 
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private boolean validateToken(String token) {
         try {
-            logger.info(String.format("Validating token: %s", token));
+            logger.debug("Validating JWT token");
             // Validate the token by parsing it with the signing key
             Jwts.parser()
                     .verifyWith(getSigningKey())
@@ -52,6 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     .parseSignedClaims(token);
             return true;
         } catch (Exception e) {
+            logger.debug("Token validation failed: {}", e.getMessage());
             return false; // If validation fails, return false
         }
     }
