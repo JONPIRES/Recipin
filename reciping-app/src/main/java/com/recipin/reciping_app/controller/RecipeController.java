@@ -28,7 +28,22 @@ public class RecipeController {
 
     @GetMapping
     public List<Recipe> getAllRecipes() {
-        return recipeRepo.findAll();
+        List<Recipe> recipes = recipeRepo.findAll();
+        // For list view, we don't need to load steps and ingredients
+        // This prevents N+1 queries when just showing recipe names
+        return recipes;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Recipe> getRecipeById(@PathVariable Long id) {
+        return recipeRepo.findById(id)
+                .map(recipe -> {
+                    // Force loading of lazy collections when needed
+                    recipe.getSteps().size(); // This triggers the lazy loading
+                    recipe.getIngredients().size(); // This triggers the lazy loading
+                    return ResponseEntity.ok(recipe);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
